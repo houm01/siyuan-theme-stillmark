@@ -1,15 +1,522 @@
 :root {
-    --b3-theme-primary: #d23f31;
+    --b3-font-family: "Emojis Additional", "Emojis Reset", BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", Helvetica, Arial, sans-serif, emojis;
+    --b3-font-family-protyle: var(--b3-font-family);
+    --b3-font-family-code: "Emojis Additional", "Emojis Reset", "JetBrainsMono-Regular", "SFMono-Regular", Consolas, monospace, var(--b3-font-family);
+    --b3-font-size: 14px;
+
+    --b3-layout-space: 4px;
+    --b3-layout-space-margin: -4px;
+    --b3-border-radius: 6px;
+    --b3-border-radius-s: 4px;
+    --b3-border-radius-b: 10px;
+
+    --b3-transition: all 160ms cubic-bezier(.2, 0, 0, 1);
+    --b3-width-transition: width 160ms cubic-bezier(.2, 0, 0, 1);
+    --b3-color-transition: color 120ms ease;
+    --b3-background-transition: background 80ms ease;
 }
 
-/*
- * 中/日/韩字体特化示范（必须使用 BCP 47 标签语法）：
- *
- * :root:lang(zh-CN) { --b3-font-family: "PingFang SC", "Microsoft YaHei", sans-serif; }
- * :root:lang(zh-TW) { --b3-font-family: "PingFang TC", "Microsoft JhengHei", sans-serif; }
- * :root:lang(ja)    { --b3-font-family: "Hiragino Sans", "Yu Gothic", sans-serif; }
- * :root:lang(ko)    { --b3-font-family: "Apple SD Gothic Neo", "Malgun Gothic", sans-serif; }
- *
- * 注意：不要使用下划线形式（如 :lang(zh_CN)），后者在浏览器环境中无效
- * 详见 https://github.com/siyuan-note/siyuan/issues/7098
- */
+:root[data-theme-mode="light"] {
+    /* Stillmark light: clean white canvas, graphite text, restrained neutral chrome. */
+    --b3-theme-primary: #4f685f;
+    --b3-theme-primary-light: rgba(79, 104, 95, .56);
+    --b3-theme-primary-lighter: rgba(79, 104, 95, .34);
+    --b3-theme-primary-lightest: rgba(79, 104, 95, .11);
+    --b3-theme-secondary: #8b633f;
+    --b3-theme-background: #fff;
+    --b3-theme-background-light: #e8ebe8;
+    --b3-theme-surface: #f5f6f4;
+    --b3-theme-surface-light: rgba(248, 249, 247, .94);
+    --b3-theme-surface-lighter: #e1e4e1;
+    --b3-theme-error: #b34f45;
+    --b3-theme-success: #55765c;
+
+    --b3-theme-on-primary: #fff;
+    --b3-theme-on-secondary: #fff;
+    --b3-theme-on-background: #242724;
+    --b3-theme-on-surface: #5d625d;
+    --b3-theme-on-surface-light: rgba(93, 98, 93, .72);
+    --b3-theme-on-surface-lighter: #aaa99f;
+    --b3-theme-on-error: #fff;
+
+    --b3-body-background: #eef0ed;
+    --b3-body-background-hl: 158, 14%, 36%;
+    --b3-body-background-hl-opacity: .2;
+    --b3-toolbar-color: var(--b3-theme-on-surface);
+    --b3-toolbar-hover: rgba(255, 255, 255, .62);
+    --b3-border-color: #dfe3df;
+    --b3-scroll-color: rgba(49, 52, 48, .2);
+    --b3-list-hover: rgba(79, 104, 95, .09);
+    --b3-list-icon-hover: rgba(79, 104, 95, .13);
+    --b3-menu-background: var(--b3-theme-background);
+    --b3-menu-icon-color: rgba(39, 41, 37, .64);
+
+    --b3-tooltips-background: #343733;
+    --b3-tooltips-color: #f4f2ec;
+    --b3-tooltips-second-color: #b7bab4;
+    --b3-tooltips-shadow: 0 4px 14px rgba(29, 31, 28, .14);
+    --b3-empty-color: var(--b3-theme-on-surface-light);
+    --b3-mask-background: rgba(41, 43, 39, .28);
+
+    --b3-card-error-color: #7c332d;
+    --b3-card-error-background: #f4ded9;
+    --b3-card-warning-color: #76501f;
+    --b3-card-warning-background: #f3e5c9;
+    --b3-card-info-color: #365e69;
+    --b3-card-info-background: #dce9e9;
+    --b3-card-success-color: #3f6146;
+    --b3-card-success-background: #dce9dc;
+
+    --b3-highlight-color: #2d2b24;
+    --b3-highlight-background: #f3df88;
+    --b3-highlight-current-background: #dfad62;
+    --b3-protyle-code-background: #f6f8f6;
+    --b3-protyle-inline-link-color: #315f92;
+    --b3-protyle-inline-mark-background: #f1dda2;
+    --b3-protyle-inline-mark-color: #38362f;
+    --b3-protyle-inline-tag-color: #8a4b57;
+    --b3-protyle-inline-blockref-color: #3f444a;
+    --b3-protyle-inline-fileref-color: #79533b;
+
+    --b3-switch-background: #d9d8d0;
+    --b3-switch-border: #8f938d;
+    --b3-switch-hover: rgba(39, 41, 37, .06);
+    --b3-switch-checked: #fff;
+    --b3-switch-checked-background: var(--b3-theme-primary);
+    --b3-switch-checked-hover: #cddbd5;
+    --b3-switch-checked-hover2: rgba(39, 41, 37, .06);
+
+    --b3-dock-shadow-color: rgba(37, 39, 36, .16);
+    --b3-point-shadow: 0 1px 3px rgba(37, 39, 36, .16);
+    --b3-dialog-shadow: 0 12px 36px rgba(37, 39, 36, .18);
+    --b3-button-shadow: 0 1px 2px rgba(37, 39, 36, .18);
+    --b3-button-active-shadow: 0 2px 5px rgba(37, 39, 36, .2);
+
+    --b3-table-even-background: rgba(79, 104, 95, .045);
+    --b3-av-gallery-shadow: 0 1px 3px rgba(37, 39, 36, .07), 0 0 0 1px var(--b3-border-color);
+    --b3-embed-background: transparent;
+    --b3-bq-background: rgba(79, 104, 95, .055);
+    --b3-parent-background: var(--b3-theme-background);
+
+    --stillmark-inline-code-background: #fff1f2;
+    --stillmark-inline-code-border: #f0c9ce;
+    --stillmark-inline-code-color: #aa2939;
+    --stillmark-inline-code-shadow: inset 0 -1px 0 rgba(170, 41, 57, .08);
+    --stillmark-code-background: #f7f7f8;
+    --stillmark-code-border: #dfe1e5;
+    --stillmark-code-border-focus: #d4aab0;
+    --stillmark-code-focus-ring: rgba(170, 41, 57, .1);
+    --stillmark-code-toolbar: #6b6f76;
+    --stillmark-code-line-number: #9a9ea5;
+    --stillmark-syntax-text: #2e3137;
+    --stillmark-syntax-comment: #687078;
+    --stillmark-syntax-keyword: #a62d4b;
+    --stillmark-syntax-title: #2f6095;
+    --stillmark-syntax-string: #8b592b;
+    --stillmark-syntax-number: #714b9c;
+    --stillmark-syntax-attribute: #70509a;
+    --stillmark-syntax-meta: #3b6d88;
+    --stillmark-syntax-operator: #555c63;
+    --stillmark-syntax-addition: #2f668f;
+    --stillmark-syntax-addition-background: #eaf3f8;
+    --stillmark-syntax-deletion: #a62d3d;
+    --stillmark-syntax-deletion-background: #fbeaec;
+    --stillmark-syntax-selection: #dce7f2;
+    --stillmark-ref-color: #3c4147;
+    --stillmark-ref-marker: #ad2e40;
+    --stillmark-ref-underline: rgba(173, 46, 64, .36);
+    --stillmark-ref-background: rgba(173, 46, 64, .045);
+    --stillmark-ref-background-hover: #fff1f3;
+    --stillmark-ref-border-hover: rgba(173, 46, 64, .24);
+    --stillmark-file-ref-color: #76513a;
+    --stillmark-file-ref-marker: #9b5a30;
+    --stillmark-file-ref-underline: rgba(155, 90, 48, .34);
+    --stillmark-file-ref-background: rgba(155, 90, 48, .055);
+    --stillmark-file-ref-background-hover: #fff5ed;
+    --stillmark-file-ref-border-hover: rgba(155, 90, 48, .24);
+}
+
+:root[data-theme-mode="dark"] {
+    /* Stillmark dark: charcoal paper with a softened sage accent. */
+    --b3-theme-primary: #9bb8ad;
+    --b3-theme-primary-light: rgba(155, 184, 173, .7);
+    --b3-theme-primary-lighter: rgba(155, 184, 173, .44);
+    --b3-theme-primary-lightest: rgba(155, 184, 173, .16);
+    --b3-theme-secondary: #d0a473;
+    --b3-theme-background: #1e211f;
+    --b3-theme-background-light: rgba(255, 255, 255, .1);
+    --b3-theme-surface: #272b28;
+    --b3-theme-surface-light: rgba(39, 43, 40, .9);
+    --b3-theme-surface-lighter: #3a403c;
+    --b3-theme-error: #d77a70;
+    --b3-theme-success: #88aa8d;
+
+    --b3-theme-on-primary: #18201d;
+    --b3-theme-on-secondary: #211a13;
+    --b3-theme-on-background: #e4e7e2;
+    --b3-theme-on-surface: #b3b9b3;
+    --b3-theme-on-surface-light: rgba(200, 205, 199, .72);
+    --b3-theme-on-surface-lighter: #656b66;
+    --b3-theme-on-error: #211413;
+
+    --b3-body-background: #171a18;
+    --b3-body-background-hl: 158, 18%, 66%;
+    --b3-body-background-hl-opacity: .18;
+    --b3-toolbar-color: var(--b3-theme-on-surface);
+    --b3-toolbar-hover: rgba(255, 255, 255, .07);
+    --b3-border-color: #373c39;
+    --b3-scroll-color: rgba(225, 231, 226, .2);
+    --b3-list-hover: rgba(155, 184, 173, .11);
+    --b3-list-icon-hover: rgba(155, 184, 173, .15);
+    --b3-menu-background: #232724;
+    --b3-menu-icon-color: rgba(228, 231, 226, .68);
+
+    --b3-tooltips-background: #0f1110;
+    --b3-tooltips-color: #e4e7e2;
+    --b3-tooltips-second-color: #8f9690;
+    --b3-tooltips-shadow: 0 5px 18px rgba(0, 0, 0, .46);
+    --b3-empty-color: var(--b3-theme-on-surface);
+    --b3-mask-background: rgba(7, 9, 8, .52);
+
+    --b3-card-error-color: #e8aaa3;
+    --b3-card-error-background: #4b2b28;
+    --b3-card-warning-color: #e8c38d;
+    --b3-card-warning-background: #493a28;
+    --b3-card-info-color: #a9ced1;
+    --b3-card-info-background: #243d40;
+    --b3-card-success-color: #b6d1b8;
+    --b3-card-success-background: #2f4433;
+
+    --b3-highlight-color: #28231b;
+    --b3-highlight-background: #c9a84f;
+    --b3-highlight-current-background: #d28b4b;
+    --b3-protyle-code-background: rgba(225, 232, 227, .09);
+    --b3-protyle-inline-link-color: #8ebcff;
+    --b3-protyle-inline-mark-background: #786625;
+    --b3-protyle-inline-mark-color: #f1eee5;
+    --b3-protyle-inline-tag-color: #dda8b2;
+    --b3-protyle-inline-blockref-color: #dfe2e7;
+    --b3-protyle-inline-fileref-color: #ebbd91;
+
+    --b3-switch-background: #414743;
+    --b3-switch-border: #858d87;
+    --b3-switch-hover: rgba(255, 255, 255, .08);
+    --b3-switch-checked: #1a211e;
+    --b3-switch-checked-background: var(--b3-theme-primary);
+    --b3-switch-checked-hover: #b6cec5;
+    --b3-switch-checked-hover2: rgba(255, 255, 255, .08);
+
+    --b3-dock-shadow-color: rgba(0, 0, 0, .48);
+    --b3-point-shadow: 0 2px 7px rgba(0, 0, 0, .34);
+    --b3-dialog-shadow: 0 14px 42px rgba(0, 0, 0, .55), 0 0 0 1px rgba(255, 255, 255, .05);
+    --b3-button-shadow: 0 1px 3px rgba(0, 0, 0, .36);
+    --b3-button-active-shadow: 0 2px 6px rgba(0, 0, 0, .46);
+
+    --b3-table-even-background: rgba(155, 184, 173, .055);
+    --b3-av-gallery-shadow: 0 2px 7px rgba(0, 0, 0, .24), 0 0 0 1px var(--b3-border-color);
+    --b3-embed-background: transparent;
+    --b3-bq-background: rgba(155, 184, 173, .065);
+    --b3-parent-background: var(--b3-theme-background);
+
+    --stillmark-inline-code-background: #3a2429;
+    --stillmark-inline-code-border: #5d343c;
+    --stillmark-inline-code-color: #ffb2bc;
+    --stillmark-inline-code-shadow: inset 0 -1px 0 rgba(255, 178, 188, .08);
+    --stillmark-code-background: #232428;
+    --stillmark-code-border: #3a3c43;
+    --stillmark-code-border-focus: #85515a;
+    --stillmark-code-focus-ring: rgba(255, 128, 145, .12);
+    --stillmark-code-toolbar: #a9adb5;
+    --stillmark-code-line-number: #6f747d;
+    --stillmark-syntax-text: #e4e6eb;
+    --stillmark-syntax-comment: #9297a1;
+    --stillmark-syntax-keyword: #ff8fa3;
+    --stillmark-syntax-title: #8ebcff;
+    --stillmark-syntax-string: #e6ba79;
+    --stillmark-syntax-number: #d3a5ff;
+    --stillmark-syntax-attribute: #c4a3f0;
+    --stillmark-syntax-meta: #8ec9ea;
+    --stillmark-syntax-operator: #bdc1c9;
+    --stillmark-syntax-addition: #8fc8ec;
+    --stillmark-syntax-addition-background: #273844;
+    --stillmark-syntax-deletion: #ff9aa7;
+    --stillmark-syntax-deletion-background: #452a30;
+    --stillmark-syntax-selection: #424a5a;
+    --stillmark-ref-color: #dfe2e7;
+    --stillmark-ref-marker: #ff9aa8;
+    --stillmark-ref-underline: rgba(255, 154, 168, .42);
+    --stillmark-ref-background: rgba(255, 154, 168, .07);
+    --stillmark-ref-background-hover: rgba(255, 154, 168, .13);
+    --stillmark-ref-border-hover: rgba(255, 154, 168, .28);
+    --stillmark-file-ref-color: #edc39d;
+    --stillmark-file-ref-marker: #e6a46f;
+    --stillmark-file-ref-underline: rgba(230, 164, 111, .42);
+    --stillmark-file-ref-background: rgba(230, 164, 111, .08);
+    --stillmark-file-ref-background-hover: rgba(230, 164, 111, .14);
+    --stillmark-file-ref-border-hover: rgba(230, 164, 111, .28);
+}
+
+:root:lang(zh-CN) {
+    --b3-font-family: "Emojis Additional", "Emojis Reset", BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", Helvetica, Arial, sans-serif, emojis;
+}
+
+:root:lang(zh-TW) {
+    --b3-font-family: "Emojis Additional", "Emojis Reset", BlinkMacSystemFont, "PingFang TC", "Hiragino Sans TC", Helvetica, Arial, sans-serif, emojis;
+}
+
+:root:lang(ja) {
+    --b3-font-family: "Emojis Additional", "Emojis Reset", BlinkMacSystemFont, "Hiragino Sans", "Yu Gothic UI", Helvetica, Arial, sans-serif, emojis;
+}
+
+/* Block references stay readable in prose and gain emphasis only on hover. */
+.b3-typography span[data-type~="block-ref"]:not(.av__celltext):not([data-type~="sup"]):not([data-type~="sub"]),
+.protyle-wysiwyg [data-node-id] span[data-type~="block-ref"]:not(.av__celltext):not([data-type~="sup"]):not([data-type~="sub"]) {
+    padding: .02em .18em .06em;
+    border-radius: 4px;
+    background: var(--stillmark-ref-background);
+    box-shadow: inset 0 -1px 0 var(--stillmark-ref-underline);
+    color: var(--stillmark-ref-color);
+    cursor: pointer;
+    opacity: 1;
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
+    text-decoration: none;
+    transition: color 120ms ease, background-color 120ms ease, box-shadow 120ms ease;
+}
+
+.b3-typography span[data-type~="block-ref"]:not(.av__celltext):not([data-type~="sup"]):not([data-type~="sub"])::before,
+.protyle-wysiwyg [data-node-id] span[data-type~="block-ref"]:not(.av__celltext):not([data-type~="sup"]):not([data-type~="sub"])::before {
+    content: "↗︎";
+    margin-inline-end: .28em;
+    color: var(--stillmark-ref-marker);
+    font-family: Arial, sans-serif;
+    font-size: .72em;
+    font-weight: 700;
+    vertical-align: .1em;
+}
+
+.b3-typography span[data-type~="block-ref"]:not(.av__celltext):not([data-type~="sup"]):not([data-type~="sub"]):hover,
+.protyle-wysiwyg [data-node-id] span[data-type~="block-ref"]:not(.av__celltext):not([data-type~="sup"]):not([data-type~="sub"]):hover {
+    background: var(--stillmark-ref-background-hover);
+    box-shadow: inset 0 0 0 1px var(--stillmark-ref-border-hover);
+    color: var(--stillmark-ref-marker);
+}
+
+/* File annotation references use a warmer tone to distinguish them from blocks. */
+.b3-typography span[data-type~="file-annotation-ref"],
+.protyle-wysiwyg [data-node-id] span[data-type~="file-annotation-ref"] {
+    padding: .02em .18em .06em;
+    border-radius: 4px;
+    background: var(--stillmark-file-ref-background);
+    box-shadow: inset 0 -1px 0 var(--stillmark-file-ref-underline);
+    color: var(--stillmark-file-ref-color);
+    cursor: pointer;
+    opacity: 1;
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
+    text-decoration: none;
+    transition: color 120ms ease, background-color 120ms ease, box-shadow 120ms ease;
+}
+
+.b3-typography span[data-type~="file-annotation-ref"]::before,
+.protyle-wysiwyg [data-node-id] span[data-type~="file-annotation-ref"]::before {
+    content: "↗︎";
+    margin-inline-end: .28em;
+    color: var(--stillmark-file-ref-marker);
+    font-family: Arial, sans-serif;
+    font-size: .72em;
+    font-weight: 700;
+    vertical-align: .1em;
+}
+
+.b3-typography span[data-type~="file-annotation-ref"]:hover,
+.protyle-wysiwyg [data-node-id] span[data-type~="file-annotation-ref"]:hover {
+    background: var(--stillmark-file-ref-background-hover);
+    box-shadow: inset 0 0 0 1px var(--stillmark-file-ref-border-hover);
+    color: var(--stillmark-file-ref-marker);
+}
+
+/* Inline code stays compact so it does not disturb the paragraph rhythm. */
+.fn__code,
+.b3-typography code:not(.hljs),
+.b3-typography span[data-type~="code"],
+.protyle-wysiwyg code:not(.hljs),
+.protyle-wysiwyg span[data-type~="code"] {
+    padding: .08em .34em;
+    border: 1px solid var(--stillmark-inline-code-border);
+    border-radius: 4px;
+    background: var(--stillmark-inline-code-background);
+    box-shadow: var(--stillmark-inline-code-shadow);
+    color: var(--stillmark-inline-code-color);
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
+    font-family: var(--b3-font-family-code);
+    font-size: .9em;
+    font-weight: 500;
+    overflow-wrap: anywhere;
+}
+
+/* Code blocks use one quiet container instead of a decorative terminal frame. */
+.b3-typography .code-block,
+.protyle-wysiwyg .code-block {
+    border: 1px solid var(--stillmark-code-border);
+    border-radius: 8px;
+    background: var(--stillmark-code-background);
+    box-shadow: 0 1px 2px rgba(31, 37, 33, .035);
+    transition: border-color 120ms ease, box-shadow 120ms ease;
+}
+
+.b3-typography .code-block:focus-within,
+.protyle-wysiwyg .code-block:focus-within {
+    border-color: var(--stillmark-code-border-focus);
+    box-shadow: 0 0 0 2px var(--stillmark-code-focus-ring);
+}
+
+.b3-typography .code-block .hljs,
+.protyle-wysiwyg .code-block .hljs {
+    background: transparent;
+    color: var(--stillmark-syntax-text);
+    font-family: var(--b3-font-family-code);
+    font-size: .92em;
+    line-height: 1.65;
+    tab-size: 4;
+}
+
+.b3-typography .code-block .hljs::selection,
+.b3-typography .code-block .hljs *::selection,
+.protyle-wysiwyg .code-block .hljs::selection,
+.protyle-wysiwyg .code-block .hljs *::selection {
+    background: var(--stillmark-syntax-selection);
+    color: var(--stillmark-syntax-text);
+}
+
+.code-block .hljs-comment,
+.code-block .hljs-quote {
+    color: var(--stillmark-syntax-comment);
+    font-style: italic;
+}
+
+.code-block .hljs-keyword,
+.code-block .hljs-selector-tag,
+.code-block .hljs-template-tag,
+.code-block .hljs-type {
+    color: var(--stillmark-syntax-keyword);
+}
+
+.code-block .hljs-title,
+.code-block .hljs-section,
+.code-block .hljs-link,
+.code-block .hljs-title.class_,
+.code-block .hljs-title.function_,
+.code-block .hljs-function .hljs-title,
+.code-block .hljs-class .hljs-title {
+    color: var(--stillmark-syntax-title);
+}
+
+.code-block .hljs-string,
+.code-block .hljs-regexp,
+.code-block .hljs-code,
+.code-block .hljs-meta .hljs-string {
+    color: var(--stillmark-syntax-string);
+}
+
+.code-block .hljs-number,
+.code-block .hljs-literal,
+.code-block .hljs-symbol,
+.code-block .hljs-bullet {
+    color: var(--stillmark-syntax-number);
+}
+
+.code-block .hljs-attr,
+.code-block .hljs-attribute,
+.code-block .hljs-variable,
+.code-block .hljs-template-variable,
+.code-block .hljs-selector-attr,
+.code-block .hljs-selector-pseudo,
+.code-block .hljs-property {
+    color: var(--stillmark-syntax-attribute);
+}
+
+.code-block .hljs-built_in,
+.code-block .hljs-doctag,
+.code-block .hljs-meta,
+.code-block .hljs-meta-keyword,
+.code-block .hljs-name,
+.code-block .hljs-tag {
+    color: var(--stillmark-syntax-meta);
+}
+
+.code-block .hljs-operator,
+.code-block .hljs-punctuation,
+.code-block .hljs-params,
+.code-block .hljs-subst {
+    color: var(--stillmark-syntax-operator);
+}
+
+.code-block .hljs-formula {
+    background: var(--stillmark-syntax-selection);
+    color: var(--stillmark-syntax-meta);
+    font-style: italic;
+}
+
+.code-block .hljs-selector-class,
+.code-block .hljs-selector-id {
+    color: var(--stillmark-syntax-title);
+}
+
+.code-block .hljs-addition {
+    background: var(--stillmark-syntax-addition-background);
+    color: var(--stillmark-syntax-addition);
+}
+
+.code-block .hljs-deletion {
+    background: var(--stillmark-syntax-deletion-background);
+    color: var(--stillmark-syntax-deletion);
+}
+
+.code-block .hljs-strong {
+    font-weight: 700;
+}
+
+.code-block .hljs-emphasis {
+    font-style: italic;
+}
+
+.protyle-linenumber__rows > span::before {
+    color: var(--stillmark-code-line-number);
+}
+
+.b3-typography .code-block:not(pre) .protyle-action,
+.protyle-wysiwyg .code-block:not(pre) .protyle-action {
+    top: 6px;
+    right: 6px;
+    color: var(--stillmark-code-toolbar);
+}
+
+.b3-typography .code-block .protyle-action__language,
+.protyle-wysiwyg .code-block .protyle-action__language {
+    padding: 1px 6px;
+    border: 1px solid var(--stillmark-code-border);
+    border-radius: 4px;
+    background: var(--b3-theme-background);
+    color: var(--stillmark-code-toolbar);
+    font-family: var(--b3-font-family-code);
+    font-size: 11px;
+    letter-spacing: .01em;
+}
+
+.b3-typography .code-block .protyle-action__copy,
+.b3-typography .code-block .protyle-action__menu,
+.protyle-wysiwyg .code-block .protyle-action__copy,
+.protyle-wysiwyg .code-block .protyle-action__menu {
+    border-radius: 4px;
+    color: var(--stillmark-code-toolbar);
+}
+
+.b3-typography .code-block .protyle-action__copy:hover,
+.b3-typography .code-block .protyle-action__menu:hover,
+.protyle-wysiwyg .code-block .protyle-action__copy:hover,
+.protyle-wysiwyg .code-block .protyle-action__menu:hover {
+    background: var(--b3-list-hover);
+    color: var(--b3-theme-on-background);
+}

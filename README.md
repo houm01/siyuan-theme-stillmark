@@ -2,18 +2,25 @@
 
 # Stillmark
 
-Stillmark is a calm and adaptable theme for [SiYuan](https://github.com/siyuan-note/siyuan). It is currently in early development; the final visual direction has not been fixed yet.
+Stillmark is a quiet, restrained theme for [SiYuan](https://github.com/siyuan-note/siyuan), built around a clean white editor canvas and clear long-form reading.
 
-## Current baseline
+![Stillmark preview](preview.png)
 
-- Light and dark mode metadata
-- A restrained neutral accent palette
+## Features
+
+- A white-first light mode with low-saturation neutral chrome
+- A carefully matched dark mode
+- Compact red inline code that preserves paragraph rhythm
+- Focused code blocks with line-number, toolbar, folding, and Highlight.js support
+- Graphite block references with subtle red navigation markers
 - Pure CSS implementation for SiYuan 3.7.0 or later
 - No deprecated `theme.js`
 
-The current icon and preview are temporary assets inherited from the official theme sample and will be replaced before the first release.
+## Installation
 
-## Local development
+After the theme is accepted into the community marketplace, install it from **Settings → Marketplace → Themes**, then select **Stillmark** under **Settings → Appearance → Theme**.
+
+For manual installation or development, clone the repository and make it available under the SiYuan theme directory:
 
 Clone the repository and make it available under the SiYuan theme directory:
 
@@ -23,7 +30,7 @@ ln -s /path/to/siyuan-theme-stillmark \
   /path/to/SiYuan/conf/appearance/themes/siyuan-theme-stillmark
 ```
 
-Then select **Stillmark** under **Settings → Appearance → Theme**. Switch themes once or restart SiYuan after editing `theme.css` if the change is not reloaded immediately.
+Switch themes once or restart SiYuan after editing `theme.css` if the change is not reloaded immediately. Select Stillmark separately for light and dark mode if you want to use it in both modes.
 
 ## Files
 
@@ -32,10 +39,6 @@ Then select **Stillmark** under **Settings → Appearance → Theme**. Switch th
 - `icon.png`: 160×160 marketplace icon
 - `preview.png`: 1024×768 marketplace preview
 - `CHANGELOG.md`: release history
-
-## Status
-
-Stillmark has not been released to the SiYuan community marketplace yet.
 
 ## License
 

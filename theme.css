@@ -1,5 +1,15 @@
-:root {
-    --b3-theme-primary: #d23f31;
+:root[data-theme-mode="light"] {
+    --b3-theme-primary: #5c6470;
+    --b3-theme-primary-light: rgba(92, 100, 112, 0.54);
+    --b3-theme-primary-lighter: rgba(92, 100, 112, 0.38);
+    --b3-theme-primary-lightest: rgba(92, 100, 112, 0.12);
+}
+
+:root[data-theme-mode="dark"] {
+    --b3-theme-primary: #aeb7c6;
+    --b3-theme-primary-light: rgba(174, 183, 198, 0.72);
+    --b3-theme-primary-lighter: rgba(174, 183, 198, 0.48);
+    --b3-theme-primary-lightest: rgba(174, 183, 198, 0.24);
 }
 
 /*

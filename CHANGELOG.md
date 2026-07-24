@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.1 - 2026-07-25
+
+- Losslessly optimize the marketplace icon to meet the SiYuan Bazaar size limit.
+
 ## 0.1.0 - 2026-07-15
 
 - Initialize Stillmark from the official SiYuan theme sample.

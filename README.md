@@ -10,11 +10,12 @@ Stillmark is a quiet, restrained theme for [SiYuan](https://github.com/siyuan-no
 
 - A white-first light mode with low-saturation neutral chrome
 - A carefully matched dark mode
-- Compact red inline code that preserves paragraph rhythm
+- Compact muted-berry inline code that preserves paragraph rhythm
 - Focused code blocks with line-number, toolbar, folding, and Highlight.js support
 - Graphite block references with subtle red navigation markers
-- Pure CSS implementation for SiYuan 3.7.0 or later
-- No deprecated `theme.js`
+- Quote blocks with a muted berry rule and upright warm-gray text
+- Source-site favicons for external links, with a neutral offline fallback
+- A CSS-first implementation with a small favicon helper for SiYuan 3.7.0 or later
 
 ## Installation
 
@@ -36,6 +37,7 @@ Switch themes once or restart SiYuan after editing `theme.css` if the change is 
 
 - `theme.json`: marketplace metadata and supported modes
 - `theme.css`: theme variables and component styles
+- `theme.js`: non-persistent external-link favicon helper
 - `icon.png`: 160×160 marketplace icon
 - `preview.png`: 1024×768 marketplace preview
 - `CHANGELOG.md`: release history

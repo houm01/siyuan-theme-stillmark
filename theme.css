@@ -671,6 +671,111 @@ body:not(.body--mobile) .protyle-title__input {
     letter-spacing: -.02em;
 }
 
+/* Keep tag metadata off the breadcrumb edge when no cover or document icon provides spacing. */
+.protyle-content .protyle-background:has(> .protyle-background__img.fn__none)
+    > .protyle-background__ia:has(> .protyle-background__icon.fn__none):has(> .b3-chips__doctag > .b3-chip[data-type="open-search"]) {
+    display: flex;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 4px 8px;
+    padding-top: 16px;
+}
+
+.protyle-content .protyle-background:has(> .protyle-background__img.fn__none)
+    > .protyle-background__ia:has(> .protyle-background__icon.fn__none):has(> .b3-chips__doctag > .b3-chip[data-type="open-search"])
+    > .b3-chips__doctag {
+    min-width: 0;
+    max-width: 100%;
+    flex: 0 1 auto;
+    row-gap: 4px;
+}
+
+.protyle-content .protyle-background:has(> .protyle-background__img.fn__none)
+    > .protyle-background__ia:has(> .protyle-background__icon.fn__none):has(> .b3-chips__doctag > .b3-chip[data-type="open-search"])
+    > .b3-chips__doctag > .b3-chip[data-type="open-search"] {
+    margin-bottom: 0;
+}
+
+.protyle-content .protyle-background:has(> .protyle-background__img.fn__none)
+    > .protyle-background__ia:has(> .protyle-background__icon.fn__none):has(> .b3-chips__doctag > .b3-chip[data-type="open-search"])
+    .protyle-background__action {
+    height: 24px;
+}
+
+.protyle-content .protyle-background:has(> .protyle-background__img.fn__none)
+    > .protyle-background__ia:has(> .protyle-background__icon.fn__none):has(> .b3-chips__doctag > .b3-chip[data-type="open-search"])
+    .protyle-background__action .b3-button {
+    height: 24px;
+    margin-bottom: 0 !important;
+    padding: 2px 4px;
+}
+
+.protyle-content .protyle-background:has(> .protyle-background__img.fn__none)
+    > .protyle-background__ia:has(> .protyle-background__icon.fn__none):has(> .b3-chips__doctag > .b3-chip[data-type="open-search"])
+    > .protyle-background__action {
+    display: flex;
+    max-width: 100%;
+    height: auto;
+    min-height: 24px;
+    flex: 0 0 auto;
+    flex-wrap: wrap;
+    gap: 4px;
+}
+
+/* Document tags use a restrained focus blue without competing with primary document states. */
+.protyle-content .b3-chips__doctag > .b3-chip[data-type="open-search"] {
+    box-sizing: border-box;
+    height: 24px;
+    margin: 0 6px 6px 0;
+    padding: 2px 5px 2px 7px;
+    border: 1px solid color-mix(in srgb, var(--stillmark-shell-focus) 24%, var(--b3-border-color));
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--stillmark-shell-focus) 8%, var(--b3-theme-background));
+    box-shadow: none;
+    color: color-mix(in srgb, var(--stillmark-shell-focus) 82%, var(--b3-theme-on-surface));
+    font-size: 12.5px;
+    font-weight: 520;
+    line-height: 18px;
+    opacity: 1;
+    transition: background-color 120ms ease, border-color 120ms ease, color 120ms ease;
+}
+
+.protyle-content .b3-chips__doctag > .b3-chip[data-type="open-search"]::before {
+    margin-right: 3px;
+    color: currentColor;
+    content: "#";
+    font-size: 11px;
+    font-weight: 650;
+    opacity: .56;
+}
+
+.protyle-content .b3-chips__doctag > .b3-chip[data-type="open-search"]:hover,
+.protyle-content .b3-chips__doctag > .b3-chip[data-type="open-search"]:focus-visible {
+    border-color: color-mix(in srgb, var(--stillmark-shell-focus) 42%, var(--b3-border-color));
+    background: color-mix(in srgb, var(--stillmark-shell-focus) 13%, var(--b3-theme-background));
+    outline: none;
+}
+
+.protyle-content .b3-chips__doctag > .b3-chip[data-type="open-search"] > .b3-chip__close {
+    width: 15px;
+    height: 15px;
+    margin: 0 -1px 0 3px;
+    padding: 2px;
+    border-radius: 50%;
+    color: currentColor;
+    opacity: .42;
+    transition: background-color 100ms ease, opacity 100ms ease;
+}
+
+.protyle-content .b3-chips__doctag > .b3-chip[data-type="open-search"]:hover > .b3-chip__close {
+    opacity: .68;
+}
+
+.protyle-content .b3-chips__doctag > .b3-chip[data-type="open-search"] > .b3-chip__close:hover {
+    background: color-mix(in srgb, var(--stillmark-shell-focus) 16%, transparent);
+    opacity: 1;
+}
+
 .protyle-toolbar,
 .block__popover,
 .b3-menu,

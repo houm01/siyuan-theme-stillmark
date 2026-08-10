@@ -1,5 +1,33 @@
 # Changelog
 
+## 0.3.17 - 2026-08-10
+
+- Add compact parent-path subtitles only to duplicate bookmark titles, with notebook and document-time fallbacks when the location alone is still ambiguous.
+
+## 0.3.15 - 2026-08-03
+
+- Restyle inline block references as compact wolai-inspired berry labels with no extra arrow or underline, plus a balanced dark-mode counterpart.
+
+## 0.3.13 - 2026-07-28
+
+- Strengthen the sage reference surfaces into clearly visible light and dark fills while keeping their saturation restrained.
+
+## 0.3.12 - 2026-07-28
+
+- Shift inline block-reference backgrounds from berry to a muted sage green while retaining the berry text, marker, and underline.
+
+## 0.3.11 - 2026-07-28
+
+- Add a soft berry-tinted background and compact radius to inline block references, with a slightly stronger hover state and unchanged prose line height.
+
+## 0.3.10 - 2026-07-28
+
+- Give inline block references a muted berry label and a clearer same-color underline so they remain restrained but no longer blend into ordinary prose.
+
+## 0.3.9 - 2026-07-28
+
+- Separate inline reference pages from normal prose with an accented section heading, bordered source groups, compact source titles, and inset secondary excerpts in both modes.
+
 ## 0.3.8 - 2026-07-28
 
 - Flatten code blocks into quiet document insets with no persistent shadow or separate header strip, a plain language label, softer surfaces, and tighter typography.

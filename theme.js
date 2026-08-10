@@ -1,7 +1,8 @@
 (() => {
     "use strict";
 
-    const GLOBAL_KEY = "__stillmarkLinkFavicons";
+    const GLOBAL_KEY = "__stillmarkThemeEnhancements";
+    const LEGACY_GLOBAL_KEY = "__stillmarkLinkFavicons";
     const STYLE_ID = "stillmark-link-favicon-rules";
     const LINK_SELECTOR = [
         ".b3-typography a[href]",
@@ -9,10 +10,17 @@
         ".protyle-wysiwyg a[href]",
         ".protyle-wysiwyg span[data-type~='a'][data-href]",
     ].join(",");
+    const BOOKMARK_SELECTOR = ".sy__bookmark li[data-treetype='bookmark'][data-node-id]";
+    const BOOKMARK_DUPLICATE_CLASS = "stillmark-bookmark--duplicate";
 
     window[GLOBAL_KEY]?.destroy?.();
+    window[LEGACY_GLOBAL_KEY]?.destroy?.();
 
     const state = {
+        bookmarkAbortController: new AbortController(),
+        bookmarkCache: new Map(),
+        bookmarkPending: new Map(),
+        bookmarkRaf: 0,
         disposed: false,
         entries: new Map(),
         faviconByOrigin: new Map(),
@@ -169,6 +177,168 @@
         return [...mutation.addedNodes, ...mutation.removedNodes].some(containsLink);
     };
 
+    const postJson = async (path, payload) => {
+        const response = await fetch(path, {
+            body: JSON.stringify(payload),
+            credentials: "same-origin",
+            headers: {"Content-Type": "application/json"},
+            method: "POST",
+            signal: state.bookmarkAbortController.signal,
+        });
+        if (!response.ok) {
+            throw new Error(`Request failed with status ${response.status}`);
+        }
+
+        const result = await response.json();
+        if (result.code !== 0) {
+            throw new Error(result.msg || "Request failed");
+        }
+        return result.data;
+    };
+
+    const getNotebookName = (notebookId) => window.siyuan?.notebooks
+        ?.find((notebook) => notebook.id === notebookId)?.name || "";
+
+    const loadBookmarkLocation = (nodeId) => {
+        if (state.bookmarkCache.has(nodeId)) {
+            return Promise.resolve(state.bookmarkCache.get(nodeId));
+        }
+        if (state.bookmarkPending.has(nodeId)) {
+            return state.bookmarkPending.get(nodeId);
+        }
+
+        const request = (async () => {
+            try {
+                const file = await postJson("/api/filetree/getPathByID", {id: nodeId});
+                if (!file?.notebook || !file.path) {
+                    return null;
+                }
+
+                const humanPath = await postJson("/api/filetree/getHPathByPath", {
+                    notebook: file.notebook,
+                    path: file.path,
+                });
+                if (typeof humanPath !== "string") {
+                    return null;
+                }
+
+                const parentSegments = humanPath.split("/").filter(Boolean);
+                parentSegments.pop();
+                const notebookName = getNotebookName(file.notebook);
+                const parentLabel = parentSegments.join(" / ") || "根目录";
+                return {
+                    parentLabel,
+                    scopedLabel: [notebookName, parentLabel].filter(Boolean).join(" / "),
+                };
+            } catch {
+                return null;
+            }
+        })();
+
+        state.bookmarkPending.set(nodeId, request);
+        request.then((location) => {
+            state.bookmarkPending.delete(nodeId);
+            if (!state.disposed) {
+                state.bookmarkCache.set(nodeId, location);
+                scheduleBookmarkScan();
+            }
+        });
+        return request;
+    };
+
+    const formatNodeTimestamp = (nodeId) => {
+        const match = nodeId.match(/^(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})\d{2}/);
+        return match ? `${match[1]}-${match[2]}-${match[3]} ${match[4]}:${match[5]}` : nodeId;
+    };
+
+    const countLabels = (labels) => labels.reduce((counts, label) => {
+        counts.set(label, (counts.get(label) || 0) + 1);
+        return counts;
+    }, new Map());
+
+    const clearBookmarkAnnotation = (row) => {
+        row.classList.remove(BOOKMARK_DUPLICATE_CLASS);
+        const text = row.querySelector(":scope > .b3-list-item__text");
+        if (text) {
+            delete text.dataset.stillmarkBookmarkPath;
+        }
+    };
+
+    const renderBookmarkGroup = (rows) => {
+        const locations = rows.map((row) => state.bookmarkCache.get(row.dataset.nodeId));
+        const parentLabels = locations.map((location) => location?.parentLabel || "未知位置");
+        const parentCounts = countLabels(parentLabels);
+        const scopedLabels = locations.map((location, index) => parentCounts.get(parentLabels[index]) > 1
+            ? location?.scopedLabel || parentLabels[index]
+            : parentLabels[index]);
+        const scopedCounts = countLabels(scopedLabels);
+
+        rows.forEach((row, index) => {
+            const text = row.querySelector(":scope > .b3-list-item__text");
+            if (!text) {
+                return;
+            }
+
+            const label = scopedCounts.get(scopedLabels[index]) > 1
+                ? `${formatNodeTimestamp(row.dataset.nodeId)} · ${scopedLabels[index]}`
+                : scopedLabels[index];
+            row.classList.add(BOOKMARK_DUPLICATE_CLASS);
+            text.dataset.stillmarkBookmarkPath = label;
+        });
+    };
+
+    const scanBookmarks = () => {
+        state.bookmarkRaf = 0;
+        if (state.disposed) {
+            return;
+        }
+
+        const rows = [...document.querySelectorAll(BOOKMARK_SELECTOR)];
+        const groupsByList = new Map();
+        rows.forEach((row) => {
+            const title = row.querySelector(":scope > .b3-list-item__text")?.textContent
+                ?.replace(/\s+/g, " ").trim().toLocaleLowerCase();
+            if (!title) {
+                clearBookmarkAnnotation(row);
+                return;
+            }
+            const groups = groupsByList.get(row.parentElement) || new Map();
+            const group = groups.get(title) || [];
+            group.push(row);
+            groups.set(title, group);
+            groupsByList.set(row.parentElement, groups);
+        });
+
+        groupsByList.forEach((groups) => {
+            groups.forEach((group) => {
+                if (group.length < 2) {
+                    clearBookmarkAnnotation(group[0]);
+                    return;
+                }
+
+                group.forEach((row) => loadBookmarkLocation(row.dataset.nodeId));
+                if (group.every((row) => state.bookmarkCache.has(row.dataset.nodeId))) {
+                    renderBookmarkGroup(group);
+                } else {
+                    group.forEach(clearBookmarkAnnotation);
+                }
+            });
+        });
+    };
+
+    function scheduleBookmarkScan() {
+        if (!state.disposed && !state.bookmarkRaf) {
+            state.bookmarkRaf = window.requestAnimationFrame(scanBookmarks);
+        }
+    }
+
+    const containsBookmarkPanel = (node) => node.nodeType === Node.ELEMENT_NODE
+        && (node.matches(".sy__bookmark") || node.querySelector(".sy__bookmark"));
+
+    const mutationTouchesBookmarks = (mutation) => mutation.target.nodeType === Node.ELEMENT_NODE
+        && (mutation.target.closest(".sy__bookmark")
+            || [...mutation.addedNodes, ...mutation.removedNodes].some(containsBookmarkPanel));
+
     const init = () => {
         if (state.disposed || state.observer || !document.body) {
             return;
@@ -178,6 +348,10 @@
             if (mutations.some(mutationTouchesLinks)) {
                 scheduleScan();
             }
+            if (mutations.some(mutationTouchesBookmarks)) {
+                state.bookmarkCache.clear();
+                scheduleBookmarkScan();
+            }
         });
         state.observer.observe(document.body, {
             attributeFilter: ["data-href", "href"],
@@ -186,6 +360,7 @@
             subtree: true,
         });
         scheduleScan();
+        scheduleBookmarkScan();
     };
 
     const destroy = () => {
@@ -196,8 +371,14 @@
         state.disposed = true;
         document.removeEventListener("DOMContentLoaded", init);
         state.observer?.disconnect();
+        state.bookmarkAbortController.abort();
+        state.bookmarkPending.clear();
+        document.querySelectorAll(BOOKMARK_SELECTOR).forEach(clearBookmarkAnnotation);
         if (state.raf) {
             window.cancelAnimationFrame(state.raf);
+        }
+        if (state.bookmarkRaf) {
+            window.cancelAnimationFrame(state.bookmarkRaf);
         }
         state.pendingImages.forEach(({image, timer}) => {
             window.clearTimeout(timer);
@@ -209,6 +390,9 @@
         state.style?.remove();
         if (window[GLOBAL_KEY]?.destroy === destroy) {
             delete window[GLOBAL_KEY];
+        }
+        if (window[LEGACY_GLOBAL_KEY]?.destroy === destroy) {
+            delete window[LEGACY_GLOBAL_KEY];
         }
         if (window.destroyTheme === destroy) {
             window.destroyTheme = undefined;

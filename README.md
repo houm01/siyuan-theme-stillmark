@@ -14,15 +14,14 @@ Stillmark is a quiet, restrained theme for [SiYuan](https://github.com/siyuan-no
 - Focused code blocks with line-number, toolbar, folding, and Highlight.js support
 - Graphite block references with subtle red navigation markers
 - Quote blocks with a muted berry rule and upright warm-gray text
+- Compact focus-blue document tags with restrained remove controls and a wrapping metadata row when no cover or document icon is present
 - A neutral globe marker for external links, with source-site favicons when the optional Stillmark Workbench plugin is installed
 - Duplicate-bookmark path annotations when the optional Stillmark Workbench plugin is installed
 - A CSS-only theme package for SiYuan 3.7.0 or later
 
 ## Installation
 
-After the theme is accepted into the community marketplace, install it from **Settings → Marketplace → Themes**, then select **Stillmark** under **Settings → Appearance → Theme**.
-
-For manual installation or development, clone the repository and make it available under the SiYuan theme directory:
+Install the theme from **Settings → Marketplace → Themes**, then select **Stillmark** under **Settings → Appearance → Theme**.
 
 Clone the repository and make it available under the SiYuan theme directory:
 

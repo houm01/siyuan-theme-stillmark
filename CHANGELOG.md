@@ -1,5 +1,29 @@
 # Changelog
 
+## 0.3.24 - 2026-08-11
+
+- Shift document tags from neutral graphite to a restrained focus-blue treatment in both light and dark modes.
+
+## 0.3.23 - 2026-08-11
+
+- Replace the berry document-tag treatment with a quiet neutral surface, graphite text, and restrained neutral hover states.
+
+## 0.3.22 - 2026-08-11
+
+- Collapse the no-cover, no-icon metadata area into one compact wrapping row so tags and their add actions no longer reserve a tall empty band above the document title.
+
+## 0.3.21 - 2026-08-11
+
+- Round document tags and their remove controls into a softer capsule treatment while retaining the compact metadata density.
+
+## 0.3.20 - 2026-08-11
+
+- Add balanced top spacing above document tags when both the cover image and document icon are absent.
+
+## 0.3.19 - 2026-08-11
+
+- Refine document tags into compact berry metadata labels with a quiet hash marker, subtle hairline border, and restrained remove-button states in both modes.
+
 ## 0.3.18 - 2026-08-10
 
 - Keep the marketplace theme package CSS-only so it can pass current SiYuan Bazaar checks.

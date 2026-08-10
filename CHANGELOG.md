@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.3.18 - 2026-08-10
+
+- Keep the marketplace theme package CSS-only so it can pass current SiYuan Bazaar checks.
+- Move dynamic source-site favicons and duplicate-bookmark path annotations to the optional Stillmark Workbench companion plugin while retaining the neutral link-icon fallback in the theme.
+- Add a deterministic package builder that rejects `theme.js` and unexpected archive entries.
+
 ## 0.3.17 - 2026-08-10
 
 - Add compact parent-path subtitles only to duplicate bookmark titles, with notebook and document-time fallbacks when the location alone is still ambiguous.

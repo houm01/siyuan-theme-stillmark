@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.3.25 - 2026-08-11
+
+- Separate ordinary block targets into transparent berry underlines and whole-document targets into focus-blue page labels when Stillmark Workbench 0.4.2 or later is installed.
+- Rework the document-end reference-pages section into a flat appendix with an accented heading, hairline boundaries, and cool-neutral excerpt rules.
+
 ## 0.3.24 - 2026-08-11
 
 - Shift document tags from neutral graphite to a restrained focus-blue treatment in both light and dark modes.

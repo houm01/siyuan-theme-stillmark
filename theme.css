@@ -152,7 +152,9 @@
     --stillmark-backlinks-border: #dde1dd;
     --stillmark-backlinks-divider: #e6e9e5;
     --stillmark-backlinks-accent: #9f3345;
-    --stillmark-backlinks-text: #555b56;
+    --stillmark-backlinks-context-rule: #98a3aa;
+    --stillmark-backlinks-source-icon: #6f7a81;
+    --stillmark-backlinks-text: #515b61;
     --stillmark-callout-background: #fbfbfa;
     --stillmark-callout-border: #e1e4e1;
     --stillmark-callout-content: #4d524e;
@@ -204,10 +206,16 @@
     --stillmark-syntax-deletion: #a62d3d;
     --stillmark-syntax-deletion-background: #fbeaec;
     --stillmark-syntax-selection: #dce7f2;
-    --stillmark-ref-color: #b84246;
-    --stillmark-ref-color-hover: #a9363c;
-    --stillmark-ref-background: #f9eded;
-    --stillmark-ref-background-hover: #f4dede;
+    --stillmark-ref-color: #a12f42;
+    --stillmark-ref-color-hover: #8e2638;
+    --stillmark-ref-background: transparent;
+    --stillmark-ref-background-hover: rgba(159, 51, 69, .06);
+    --stillmark-ref-underline: rgba(159, 51, 69, .44);
+    --stillmark-ref-underline-hover: rgba(159, 51, 69, .82);
+    --stillmark-document-ref-color: #315f92;
+    --stillmark-document-ref-color-hover: #244f7d;
+    --stillmark-document-ref-background: #edf3f8;
+    --stillmark-document-ref-background-hover: #e2ecf5;
     --stillmark-file-ref-color: #76513a;
     --stillmark-file-ref-marker: #9b5a30;
     --stillmark-file-ref-underline: rgba(118, 81, 58, .3);
@@ -344,7 +352,9 @@
     --stillmark-backlinks-border: #3a3f3b;
     --stillmark-backlinks-divider: #343936;
     --stillmark-backlinks-accent: #e08a97;
-    --stillmark-backlinks-text: #bec4be;
+    --stillmark-backlinks-context-rule: #75828a;
+    --stillmark-backlinks-source-icon: #9aa6ad;
+    --stillmark-backlinks-text: #c0c8cd;
     --stillmark-callout-background: #242724;
     --stillmark-callout-border: #3a3f3b;
     --stillmark-callout-content: #c6cbc6;
@@ -396,10 +406,16 @@
     --stillmark-syntax-deletion: #ff9aa7;
     --stillmark-syntax-deletion-background: #452a30;
     --stillmark-syntax-selection: #424a5a;
-    --stillmark-ref-color: #f0a0a4;
-    --stillmark-ref-color-hover: #f5b0b4;
-    --stillmark-ref-background: #3c292c;
-    --stillmark-ref-background-hover: #493034;
+    --stillmark-ref-color: #eea0aa;
+    --stillmark-ref-color-hover: #ffb0ba;
+    --stillmark-ref-background: transparent;
+    --stillmark-ref-background-hover: rgba(224, 138, 151, .08);
+    --stillmark-ref-underline: rgba(224, 138, 151, .52);
+    --stillmark-ref-underline-hover: rgba(224, 138, 151, .88);
+    --stillmark-document-ref-color: #a8caff;
+    --stillmark-document-ref-color-hover: #c0d9ff;
+    --stillmark-document-ref-background: #273440;
+    --stillmark-document-ref-background-hover: #304253;
     --stillmark-file-ref-color: #edc39d;
     --stillmark-file-ref-marker: #e6a46f;
     --stillmark-file-ref-underline: rgba(237, 195, 157, .34);
@@ -1147,7 +1163,8 @@ body:not(.body--mobile) .protyle-title__input {
     box-sizing: border-box;
     width: 100%;
     min-height: 32px;
-    padding: 4px 4px 8px;
+    padding: 7px 4px 8px;
+    border-top: 2px solid var(--stillmark-backlinks-accent);
     border-bottom: 1px solid var(--stillmark-backlinks-border);
     color: var(--stillmark-backlinks-accent);
     font-size: 12.5px;
@@ -1160,9 +1177,9 @@ body:not(.body--mobile) .protyle-title__input {
 }
 
 .protyle-content .stillmark-inline-backlinks__body {
-    margin-top: 8px;
-    border: 1px solid var(--stillmark-backlinks-border);
-    border-radius: 8px;
+    margin-top: 6px;
+    border-block: 1px solid var(--stillmark-backlinks-border);
+    border-radius: 0;
     background: var(--stillmark-backlinks-surface);
 }
 
@@ -1183,7 +1200,7 @@ body:not(.body--mobile) .protyle-title__input {
 }
 
 .protyle-content .stillmark-inline-backlinks__source-title > svg {
-    color: var(--stillmark-backlinks-accent);
+    color: var(--stillmark-backlinks-source-icon);
 }
 
 .protyle-content .stillmark-inline-backlinks__context {
@@ -1198,9 +1215,8 @@ body:not(.body--mobile) .protyle-title__input {
     inset-block: 12px;
     inset-inline-start: 23px;
     width: 2px;
-    background: var(--stillmark-backlinks-accent);
+    background: var(--stillmark-backlinks-context-rule);
     content: "";
-    opacity: .58;
 }
 
 .protyle-content .stillmark-inline-backlinks__context .protyle-wysiwyg {
@@ -1403,13 +1419,16 @@ body:not(.body--mobile) .protyle-title__input {
     vertical-align: -.1em;
 }
 
-/* Block references use a compact wolai-inspired berry label. */
+/* Block references use a flat berry underline so they cannot be mistaken for inline code chips. */
 .b3-typography span[data-type~="block-ref"]:not(.av__celltext):not([data-type~="sup"]):not([data-type~="sub"]),
 .protyle-wysiwyg [data-node-id] span[data-type~="block-ref"]:not(.av__celltext):not([data-type~="sup"]):not([data-type~="sub"]) {
-    padding: .02em .18em .06em;
-    border-radius: 3px;
+    padding: 0 .08em .03em;
+    border-radius: 2px;
     background-color: var(--stillmark-ref-background);
-    background-image: none;
+    background-image: linear-gradient(var(--stillmark-ref-underline), var(--stillmark-ref-underline));
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    background-size: 100% 1px;
     box-shadow: none;
     color: var(--stillmark-ref-color);
     cursor: pointer;
@@ -1423,9 +1442,42 @@ body:not(.body--mobile) .protyle-title__input {
 .b3-typography span[data-type~="block-ref"]:not(.av__celltext):not([data-type~="sup"]):not([data-type~="sub"]):hover,
 .protyle-wysiwyg [data-node-id] span[data-type~="block-ref"]:not(.av__celltext):not([data-type~="sup"]):not([data-type~="sub"]):hover {
     background-color: var(--stillmark-ref-background-hover);
+    background-image: linear-gradient(var(--stillmark-ref-underline-hover), var(--stillmark-ref-underline-hover));
+    background-size: 100% 2px;
     box-shadow: none;
     color: var(--stillmark-ref-color-hover);
     text-shadow: none;
+}
+
+/* Whole-document references are blue page chips; ordinary block references remain berry underlines. */
+.b3-typography span[data-type~="block-ref"][data-stillmark-ref-target="document"]:not(.av__celltext):not([data-type~="sup"]):not([data-type~="sub"]),
+.protyle-wysiwyg [data-node-id] span[data-type~="block-ref"][data-stillmark-ref-target="document"]:not(.av__celltext):not([data-type~="sup"]):not([data-type~="sub"]) {
+    padding: .01em .2em .05em;
+    border-radius: 3px;
+    background-color: var(--stillmark-document-ref-background);
+    background-image: none;
+    color: var(--stillmark-document-ref-color);
+}
+
+.b3-typography span[data-type~="block-ref"][data-stillmark-ref-target="document"]:not(.av__celltext):not([data-type~="sup"]):not([data-type~="sub"])::before,
+.protyle-wysiwyg [data-node-id] span[data-type~="block-ref"][data-stillmark-ref-target="document"]:not(.av__celltext):not([data-type~="sup"]):not([data-type~="sub"])::before {
+    display: inline-block;
+    width: .72em;
+    height: .82em;
+    margin-inline-end: .24em;
+    background: currentColor;
+    content: "";
+    opacity: .78;
+    vertical-align: -.08em;
+    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 16'%3E%3Cpath fill='none' stroke='black' stroke-linejoin='round' stroke-width='1.4' d='M2.5 1.5h5.8l3.2 3.2v9.8h-9zM8.3 1.5v3.2h3.2M4.5 8h5M4.5 11h5'/%3E%3C/svg%3E") center / contain no-repeat;
+    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 16'%3E%3Cpath fill='none' stroke='black' stroke-linejoin='round' stroke-width='1.4' d='M2.5 1.5h5.8l3.2 3.2v9.8h-9zM8.3 1.5v3.2h3.2M4.5 8h5M4.5 11h5'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+
+.b3-typography span[data-type~="block-ref"][data-stillmark-ref-target="document"]:not(.av__celltext):not([data-type~="sup"]):not([data-type~="sub"]):hover,
+.protyle-wysiwyg [data-node-id] span[data-type~="block-ref"][data-stillmark-ref-target="document"]:not(.av__celltext):not([data-type~="sup"]):not([data-type~="sub"]):hover {
+    background-color: var(--stillmark-document-ref-background-hover);
+    background-image: none;
+    color: var(--stillmark-document-ref-color-hover);
 }
 
 /* File annotation references use a warmer tone to distinguish them from blocks. */

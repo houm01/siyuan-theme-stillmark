@@ -12,7 +12,8 @@ Stillmark is a quiet, restrained theme for [SiYuan](https://github.com/siyuan-no
 - A carefully matched dark mode
 - Compact muted-berry inline code that preserves paragraph rhythm
 - Focused code blocks with line-number, toolbar, folding, and Highlight.js support
-- Graphite block references with subtle red navigation markers
+- Transparent berry-underlined block references, with focus-blue page labels for whole-document targets when Stillmark Workbench 0.4.2 or later is installed
+- A flat appendix treatment for document-end reference pages, with hairline boundaries and quiet secondary excerpts
 - Quote blocks with a muted berry rule and upright warm-gray text
 - Compact focus-blue document tags with restrained remove controls and a wrapping metadata row when no cover or document icon is present
 - A neutral globe marker for external links, with source-site favicons when the optional Stillmark Workbench plugin is installed

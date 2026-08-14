@@ -868,7 +868,11 @@ body:not(.body--mobile) .protyle-title__input {
     opacity: .72;
 }
 
-.b3-dialog__container:has(#searchInput) .block__icon:hover,
+.search__header .block__icon:hover,
+#searchResult .block__icon:hover {
+    opacity: 1;
+}
+
 .b3-dialog__container:has(#searchInput) .block__icon--active {
     opacity: 1;
 }
@@ -949,8 +953,8 @@ body:not(.body--mobile) .protyle-title__input {
     color: var(--b3-theme-on-surface);
 }
 
-.b3-dialog__container:has(#searchInput) #criteria .b3-button--outline:hover,
-.b3-dialog__container:has(#searchInput) #criteria .b3-button--outline:focus-visible {
+#criteria .b3-button--outline:hover,
+#criteria .b3-button--outline:focus-visible {
     background: var(--stillmark-shell-hover);
     box-shadow: inset 0 0 0 1px var(--b3-theme-on-surface-light);
     color: var(--b3-theme-on-background);
@@ -982,7 +986,7 @@ body:not(.body--mobile) .protyle-title__input {
     line-height: 36px;
 }
 
-.b3-dialog__container:has(#searchInput) .search__list > .b3-list-item:hover:not(.b3-list-item--focus) {
+.search__list > .b3-list-item:hover:not(.b3-list-item--focus) {
     background: var(--stillmark-shell-hover);
 }
 
@@ -1069,7 +1073,7 @@ body:not(.body--mobile) .protyle-title__input {
     background: var(--stillmark-shell-border);
 }
 
-.b3-dialog__container:has(#searchInput) .search__drag:hover::after {
+.search__drag:hover::after {
     background: var(--stillmark-shell-focus);
 }
 
@@ -1264,7 +1268,7 @@ body:not(.body--mobile) .protyle-title__input {
     background-color: var(--stillmark-tree-selected-background);
 }
 
-/* Hovered document-tree branches reuse the editor list guide without changing tree layout. */
+/* Keep a lightweight hover guide without relational selectors that invalidate the whole tree. */
 .file-tree .b3-list ul > [data-type="navigation-file"]:first-child::before {
     position: absolute;
     bottom: 50%;
@@ -1326,23 +1330,11 @@ body:not(.body--mobile) .protyle-title__input {
 }
 
 @media (hover: hover) {
-    .file-tree .b3-list ul:has(> [data-type="navigation-file"]:hover) > [data-type="navigation-file"]:first-child::before {
+    .file-tree .b3-list ul:hover > [data-type="navigation-file"]:first-child::before {
         opacity: 1;
     }
 
-    .file-tree .b3-list ul > [data-type="navigation-file"]:not(.dragover):not([class*="dragover__"]):has(~ [data-type="navigation-file"]:hover)::after {
-        position: absolute;
-        top: 50%;
-        left: calc(var(--file-toggle-width) - 6px);
-        width: var(--stillmark-list-connector-width);
-        height: calc(100% + var(--stillmark-tree-connector-row-bridge));
-        border-radius: 999px;
-        background: var(--stillmark-list-connector-active);
-        content: "";
-        pointer-events: none;
-    }
-
-    .file-tree .b3-list ul > [data-type="navigation-file"]:hover:has(> .b3-list-item__toggle.fn__hidden)::after {
+    .file-tree .b3-list [data-type="navigation-file"]:hover:not(.dragover):not([class*="dragover__"])::after {
         position: absolute;
         top: calc(50% - var(--stillmark-list-connector-width));
         left: calc(var(--file-toggle-width) - 6px);
@@ -1354,7 +1346,35 @@ body:not(.body--mobile) .protyle-title__input {
         pointer-events: none;
     }
 
-    .file-tree .b3-list ul > ul:has(~ [data-type="navigation-file"]:hover)::after {
+    .file-tree .b3-list .stillmark-tree-guide-first::before {
+        opacity: 1;
+    }
+
+    .file-tree .b3-list .stillmark-tree-guide-before::after {
+        position: absolute;
+        top: 50%;
+        left: calc(var(--file-toggle-width) - 6px);
+        width: var(--stillmark-list-connector-width);
+        height: calc(100% + var(--stillmark-tree-connector-row-bridge));
+        border-radius: 999px;
+        background: var(--stillmark-list-connector-active);
+        content: "";
+        pointer-events: none;
+    }
+
+    .file-tree .b3-list .stillmark-tree-guide-current-leaf::after {
+        position: absolute;
+        top: calc(50% - var(--stillmark-list-connector-width));
+        left: calc(var(--file-toggle-width) - 6px);
+        width: 8px;
+        height: var(--stillmark-list-connector-width);
+        border-radius: 0 999px 999px 0;
+        background: var(--stillmark-list-connector-active);
+        content: "";
+        pointer-events: none;
+    }
+
+    .file-tree .b3-list .stillmark-tree-guide-branch::after {
         position: absolute;
         top: 0;
         bottom: -14px;
@@ -1702,31 +1722,44 @@ body:not(.body--mobile) .protyle-title__input {
 }
 
 @media (hover: hover) {
-    .protyle-wysiwyg [data-node-id].list:has(> .li:is([data-subtype="o"], [data-subtype="u"]):hover) > .li:first-child:is([data-subtype="o"], [data-subtype="u"]) > .protyle-action::before {
+    .protyle-wysiwyg [data-node-id].list:hover > .li:first-child:is([data-subtype="o"], [data-subtype="u"]) > .protyle-action::before {
         opacity: 1;
     }
 
-    .protyle-wysiwyg [data-node-id].li:has(> [data-node-id].list > .li:is([data-subtype="o"], [data-subtype="u"]):hover) > .p::before {
+    .protyle-wysiwyg [data-node-id].li:hover > .p::before {
         opacity: 1;
     }
 
-    .protyle-wysiwyg [data-node-id].li:has(> [data-node-id].list > .li:first-child > [data-node-id].list > .li:is([data-subtype="o"], [data-subtype="u"]):hover) > .p::before,
-    .protyle-wysiwyg [data-node-id].li:has(> [data-node-id].list > .li:first-child:is([data-subtype="o"], [data-subtype="u"]) ~ .li:is([data-subtype="o"], [data-subtype="u"]):hover) > .p::before {
-        width: calc(var(--stillmark-list-indent-step) + var(--stillmark-list-child-axis) - var(--stillmark-list-connector-axis) + var(--stillmark-list-connector-width) + var(--stillmark-list-connector-half-width) - var(--stillmark-list-turn-radius));
-    }
-
-    .protyle-wysiwyg [data-node-id].li > [data-node-id].list > .li:first-child:has(> [data-node-id].list > .li:is([data-subtype="o"], [data-subtype="u"]):hover) > .p::after,
-    .protyle-wysiwyg [data-node-id].li > [data-node-id].list:has(> .li:first-child:is([data-subtype="o"], [data-subtype="u"]) ~ .li:is([data-subtype="o"], [data-subtype="u"]):hover) > .li:first-child:is([data-subtype="o"], [data-subtype="u"]) > .p::after {
+    .protyle-wysiwyg [data-node-id].li > [data-node-id].list:hover > .li:first-child:is([data-subtype="o"], [data-subtype="u"]) > .p::after {
         opacity: 1;
     }
 
-    /* Keep the native guide pseudo intact, but hide its gray border under the active blue path. */
-    .protyle-wysiwyg [data-node-id].li:is([data-subtype="o"], [data-subtype="u"]):has(> [data-node-id].list > .li:is([data-subtype="o"], [data-subtype="u"]):hover)::before,
-    .protyle-wysiwyg [data-node-id].list > .li:is([data-subtype="o"], [data-subtype="u"]):has(~ .li:is([data-subtype="o"], [data-subtype="u"]):hover)::before {
+    /* Hide only the native guide on the active ancestor path. */
+    .protyle-wysiwyg [data-node-id].li:is([data-subtype="o"], [data-subtype="u"]):hover::before {
         border-color: transparent;
     }
 
-    .protyle-wysiwyg [data-node-id].list > .li:is([data-subtype="o"], [data-subtype="u"]):not(.dragover):not([class*="dragover__"]):has(~ .li:is([data-subtype="o"], [data-subtype="u"]):hover)::after {
+    .protyle-wysiwyg [data-node-id].list.stillmark-list-guide-active > .li:first-child:is([data-subtype="o"], [data-subtype="u"]) > .protyle-action::before {
+        opacity: 1;
+    }
+
+    .protyle-wysiwyg [data-node-id].li.stillmark-list-guide-parent > .p::before {
+        opacity: 1;
+    }
+
+    .protyle-wysiwyg [data-node-id].li.stillmark-list-guide-parent-continued > .p::before {
+        width: calc(var(--stillmark-list-indent-step) + var(--stillmark-list-child-axis) - var(--stillmark-list-connector-axis) + var(--stillmark-list-connector-width) + var(--stillmark-list-connector-half-width) - var(--stillmark-list-turn-radius));
+    }
+
+    .protyle-wysiwyg [data-node-id].li.stillmark-list-guide-turn > .p::after {
+        opacity: 1;
+    }
+
+    .protyle-wysiwyg [data-node-id].li.stillmark-list-guide-native-hidden::before {
+        border-color: transparent;
+    }
+
+    .protyle-wysiwyg [data-node-id].li.stillmark-list-guide-before::after {
         position: absolute;
         top: calc(.8125em + 4px - var(--stillmark-list-connector-half-width));
         left: var(--stillmark-list-connector-left);
@@ -1738,8 +1771,7 @@ body:not(.body--mobile) .protyle-title__input {
         pointer-events: none;
     }
 
-    /* A nested first-item segment begins only after its second turn has reached the child axis. */
-    .protyle-wysiwyg [data-node-id].li > [data-node-id].list:has(> .li:first-child:is([data-subtype="o"], [data-subtype="u"]) ~ .li:is([data-subtype="o"], [data-subtype="u"]):hover) > .li:first-child:is([data-subtype="o"], [data-subtype="u"])::after {
+    .protyle-wysiwyg [data-node-id].li.stillmark-list-guide-first-continued::after {
         top: calc(.8125em + 4px + var(--stillmark-list-turn-radius) - var(--stillmark-list-connector-width) - var(--stillmark-list-connector-width));
         height: calc(100% + var(--b3-layout-space) - var(--stillmark-list-turn-radius) + var(--stillmark-list-connector-width) + var(--stillmark-list-connector-width) + var(--stillmark-list-connector-half-width));
     }
@@ -2271,7 +2303,7 @@ body:not(.body--mobile) .protyle-title__input {
     color: var(--b3-theme-on-background);
 }
 
-.av[data-type="NodeAttributeView"]:has(.av__row--header) .av__views .layout-tab-bar .item:not(.item--focus):hover {
+.av[data-type="NodeAttributeView"] .av__views .layout-tab-bar .item:not(.item--focus):hover {
     border-radius: 4px 4px 0 0;
     background: var(--stillmark-av-view-background);
 }
@@ -2287,12 +2319,12 @@ body:not(.body--mobile) .protyle-title__input {
     transition: background-color 100ms ease, color 100ms ease, opacity 100ms ease;
 }
 
-.av[data-type="NodeAttributeView"]:has(.av__row--header):hover .av__views .block__icon,
-.av[data-type="NodeAttributeView"]:has(.av__row--header) .av__views .block__icon:focus-visible {
+.av[data-type="NodeAttributeView"] .av__views:hover .block__icon,
+.av[data-type="NodeAttributeView"] .av__views .block__icon:focus-visible {
     opacity: 1;
 }
 
-.av[data-type="NodeAttributeView"]:has(.av__row--header) .av__views .block__icon:hover {
+.av[data-type="NodeAttributeView"] .av__views .block__icon:hover {
     background: var(--b3-list-hover);
     color: var(--b3-theme-on-background);
 }
@@ -2341,7 +2373,7 @@ body:not(.body--mobile) .protyle-title__input {
     font-weight: 500;
 }
 
-.av[data-type="NodeAttributeView"]:has(.av__row--header) .av__cell--header:hover {
+.av[data-type="NodeAttributeView"] .av__cell--header:hover {
     background: var(--stillmark-av-row-hover);
     color: var(--b3-theme-on-background);
 }
@@ -2360,8 +2392,8 @@ body:not(.body--mobile) .protyle-title__input {
     transition: background-color 80ms ease;
 }
 
-.av[data-type="NodeAttributeView"]:has(.av__row--header) .av__row[data-index]:hover,
-.av[data-type="NodeAttributeView"]:has(.av__row--header) .av__row[data-index]:hover .av__colsticky {
+.av[data-type="NodeAttributeView"] .av__row[data-index]:hover,
+.av[data-type="NodeAttributeView"] .av__row[data-index]:hover .av__colsticky {
     background: var(--stillmark-av-row-hover);
 }
 
@@ -2431,8 +2463,8 @@ body:not(.body--mobile) .protyle-title__input {
     transition: background-color 80ms ease, color 80ms ease, opacity 80ms ease;
 }
 
-.av[data-type="NodeAttributeView"]:has(.av__row--header) .av__row--footer:hover .av__calc,
-.av[data-type="NodeAttributeView"]:has(.av__row--header) .av__row--footer .av__calc:hover {
+.av[data-type="NodeAttributeView"] .av__row--footer:hover .av__calc,
+.av[data-type="NodeAttributeView"] .av__row--footer .av__calc:hover {
     color: var(--b3-theme-on-surface);
     opacity: 1;
 }

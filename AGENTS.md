@@ -88,6 +88,7 @@
 
 ## Verification
 
+- 禁止在同一选择器列表中组合 `:has(...)` 与动态 `:hover`；连续目录/列表引导线使用 Stillmark Workbench 的状态类，主题单独安装时保留轻量直接悬停反馈。性能回归至少覆盖 200 个已渲染目录节点，并回读滚动耗时、样式重算耗时和动态关系悬停规则数。
 - 修改主题后运行 `git diff --check`，并确认本地思源实际提供的 `theme.css` 与仓库文件一致。
 - 发布前运行 `./scripts/build-package.sh`，确认 `package.zip` 只含允许的主题资源、根目录不含 `theme.js`，并用 Bazaar 当前 Stage 检查规则复核。
 - 新增或修改 `theme.js` 时同步递增 `theme.json` 版本；调用 `/api/ui/reloadTheme` 后确认 `#themeScript` 的查询版本已更新，避免现有窗口继续使用旧脚本或 CSS 兜底。

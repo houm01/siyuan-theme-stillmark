@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.3.26 - 2026-08-14
+
+- Replace relational hover selectors with lightweight direct hover states so document-tree scrolling no longer triggers full-page style recalculation.
+- Preserve compact search, list-guide, document-tree, and database hover feedback without changing native controls or layout.
+
 ## 0.3.25 - 2026-08-11
 
 - Separate ordinary block targets into transparent berry underlines and whole-document targets into focus-blue page labels when Stillmark Workbench 0.4.2 or later is installed.
